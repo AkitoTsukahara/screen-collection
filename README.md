@@ -30,13 +30,13 @@ url.csvというファイルにスクショが欲しいページのURLとタイ�
 ## ページ読み込みのデバイス設定方法
 デフォルトではPCになっていますが、iPhoneなどスマホで読み込むことが可能です
 ### iPhone8で撮る場合
-screen-collection.jsの2,3行目をbeforeからafterの状態に編集してください。
-```before screen-collection.js  line 5,6
+##### before （screen-collection.js  line 5,6）
+```
 const emulateDevices = '';
 //const emulateDevices = puppeteer.devices['iPhone 8'];//エミュレートするデバイスを指定
 ```
-
-```after screen-collection.js  line 5,6
+##### after （screen-collection.js  line 5,6）
+```
 //const emulateDevices = '';
 const emulateDevices = puppeteer.devices['iPhone 8'];//エミュレートするデバイスを指定
 ```
@@ -44,19 +44,21 @@ const emulateDevices = puppeteer.devices['iPhone 8'];//エミュレートする�
 ## ページ読み込み時間の設定
 ページによっては全画面描画するのに１秒弱かかるものもあります
 デフォルトでは画面描画に3秒間待つ様に設定しています。
-### 読み込み時間を長くする場合
-```screen-collection.js  line 15    3000 -> 5000
+#### 読み込み時間を長くする場合
+##### screen-collection.js  line 15    変更点：3000 -> 5000
+```
 const WAIT_FOR = 5000; // ページ描画の待機時間（ミリ秒）
 ```
 
 ## basic認証ページのuser,pass設定方法
 Basic認証がかかったページで利用する場合は、usernameとpasswordを設定してください
-```before screen-collection.js  line 8,9
+##### before （screen-collection.js  line 8,9）
+```
 const basicUser = '';
 const basicPass = '';
 ```
-
-```after screen-collection.js  line 8,9
+##### after （screen-collection.js  line 8,9）
+```
 const basicUser = 'ユーザ名';
 const basicPass = 'パスワード';
 ```
