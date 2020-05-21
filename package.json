@@ -18,6 +18,7 @@
   "homepage": "https://github.com/AkitoTsukahara/screen-collection#readme",
   "dependencies": {
     "csv": "^5.3.2",
+    "fs": "0.0.1-security",
     "puppeteer": "^3.1.0"
   }
 }
