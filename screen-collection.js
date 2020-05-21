@@ -1,16 +1,20 @@
+//もろもろの定数
 const puppeteer = require('puppeteer');
-const emulateDevices = puppeteer.devices['iPhone 8'];//エミュレートするデバイスを指定
+const fs = require('fs');
+const parse = require('csv-parse/lib/sync');
+const emulateDevices = '';
+//const emulateDevices = puppeteer.devices['iPhone 8'];//エミュレートするデバイスを指定
 const file = './url.csv';
-
-
+const basicUser = '';
+const basicPass = '';
 const DEFAULT_VIEWPORT = {
   width: 1000,
   height: 2000,
   deviceScaleFactor: 1,
 };
-
 const WAIT_FOR = 3000; // ページ描画の待機時間（ミリ秒）
 
+//全体の処理を包括
 !(async() => {
   try {
 
@@ -22,9 +26,10 @@ const WAIT_FOR = 3000; // ページ描画の待機時間（ミリ秒）
     //CSVファイル読み取り
     const options = { columns: true };
     const records = readCsvSync(file,options);
+    const totall  = records.length
 
-    for (let i = 0; i < records.length; i++) {
-        await screenshotPageScroll(browser,records[i].url,records[i].title,i+1,records.length);
+    for (let i = 0; i < totall; i++) {
+        await screenshotPageScroll(browser,records[i].url,records[i].title,i+1,totall);
     }
 
     await browser.close();
@@ -34,7 +39,7 @@ const WAIT_FOR = 3000; // ページ描画の待機時間（ミリ秒）
 })()
 
 /**
- * ページスクロールし、ページ全体のキャプチャ取得
+ * ページスクロールし、ページ全体のスクショ取得
  * @param browser
  * @param url
  * @param title
@@ -46,9 +51,17 @@ async function screenshotPageScroll(browser,url,title,number,all) {
   const context = await browser.createIncognitoBrowserContext();
 
   const page = await context.newPage();
+
+  //エミュレーターの指定
   if(emulateDevices !== ''){
     await page.emulate(emulateDevices);//エミュレートするデバイスを指定
   }
+
+  //Basic認証の設定
+  if(basicUser !== '' && basicPass !== ''){
+    await page.authenticate({ username: basicUser, password: basicPass });
+  }
+
   await page.goto(url, {waitUntil: 'networkidle2'});
 
   await page.evaluate(() => {
@@ -67,6 +80,7 @@ async function screenshotPageScroll(browser,url,title,number,all) {
 
   await page.waitFor(WAIT_FOR); // ページ描画の待機
 
+  //スクショ撮って、保存
   await page.screenshot({
     path: './screen/'+title+'.png',
     fullPage: true
@@ -86,8 +100,6 @@ async function screenshotPageScroll(browser,url,title,number,all) {
  * @param options
  */
 function readCsvSync(filename, options) {
-  const fs = require('fs');
-  const parse = require('csv-parse/lib/sync');
   const content = fs.readFileSync(filename).toString();
   return parse(content, options);
 }
