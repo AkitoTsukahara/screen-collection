@@ -1,0 +1,23 @@
+{
+  "name": "screen-collection",
+  "version": "1.0.0",
+  "description": "指定されたページURLのスクショを自動で撮ってくれるツール",
+  "main": "screen-collection.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://AkitoTsukahara@github.com/AkitoTsukahara/screen-collection.git"
+  },
+  "author": "Akito Tsukahara",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AkitoTsukahara/screen-collection/issues"
+  },
+  "homepage": "https://github.com/AkitoTsukahara/screen-collection#readme",
+  "dependencies": {
+    "csv": "^5.3.2",
+    "puppeteer": "^3.1.0"
+  }
+}
